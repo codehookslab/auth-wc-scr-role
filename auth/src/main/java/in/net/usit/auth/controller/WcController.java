@@ -4,6 +4,7 @@ import java.util.List;
 
 import in.net.usit.auth.repo.WcRepo;
 import in.net.usit.auth.repo.WcRoleRepo;
+import in.net.usit.auth.repo.WorkCenterRoleScreenRepo;
 import in.net.usit.auth.to.WorkCenterRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class WcController {
 	
 	@Autowired
 	private WcRoleRepo wcRoleRepo;
+	@Autowired
+	private WorkCenterRoleScreenRepo wcRoleScreenRepo;
 	
 	@GetMapping(path = "")
 	public ResponseEntity<?> loadWcs() {
@@ -33,7 +36,11 @@ public class WcController {
 	
 	@GetMapping(path = "/wc-role-screens")
 	public ResponseEntity<?> loadWcRoleScreens() {
-		return ResponseEntity.ok(wcRoleRepo.findAll());
+		List<WorkCenterRole> wcRoles = wcRoleRepo.findAll();
+//		wcRoles.forEach(wcr -> {
+//			wcr.setScreens(wcRoleScreenRepo.findByIdWcRoleId(wcr));
+//		});
+		return ResponseEntity.ok(wcRoles);
 	}
 	
 	@PostMapping(path = "/wc-role-screens")

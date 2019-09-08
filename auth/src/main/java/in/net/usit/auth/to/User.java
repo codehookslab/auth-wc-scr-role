@@ -3,24 +3,18 @@ package in.net.usit.auth.to;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
-import antlr.collections.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -57,5 +51,14 @@ public class User {
 	
 	@Transient
 	private Set<Screen> screenOrModules;
+
+	@Override
+	public String toString() {
+		return "User [uid=" + uid + ", username=" + username + ", password="
+				+ password + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", validFrom=" + validFrom + ", validUpto="
+				+ validUpto + ", wcRolesMap=" + wcRolesMap
+				+ ", screenOrModules=" + screenOrModules + "]";
+	}
 
 }

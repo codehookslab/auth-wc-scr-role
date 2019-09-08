@@ -2,6 +2,7 @@ package in.net.usit.auth.controller;
 
 import in.net.usit.auth.repo.ScreenRepo;
 import in.net.usit.auth.repo.UserRepo;
+import in.net.usit.auth.repo.WorkCenterRoleScreenRepo;
 import in.net.usit.auth.to.Screen;
 import in.net.usit.auth.to.User;
 
@@ -28,6 +29,8 @@ public class LoginController {
 	private UserRepo userRepo;
 	@Autowired
 	private ScreenRepo screenRepo;
+	@Autowired
+	private WorkCenterRoleScreenRepo wcrsRepo;
 
 	@PostMapping(path = "")
 	public ResponseEntity<Object> handleLogin(@RequestBody User user) {
@@ -36,23 +39,19 @@ public class LoginController {
 				user.getUsername(), user.getPassword());
 
 		if (optionalUser.isPresent()) {
-
+			System.out.println(optionalUser.get());
 			Set<Screen> rootModules = new HashSet<>();
 			Set<String> screenNamesSet = new HashSet<>();
 
 			User loggedInUser = optionalUser.get();
 
 			loggedInUser.getWcRolesMap().forEach( wcRole -> {
+//				wcRole.setScreens(wcrsRepo.loadScreensByRoleAndWcId(wcRole.getId().getWcId().getWorkcenterid() , wcRole.getId().getRoleId().getUid()));
 				wcRole.getScreens().forEach(screen -> {
-					screenNamesSet.add(screen.getScreenId().getName());
-					rootModules.add(getRootModule(screen.getScreenId(), screenNamesSet));
+					screenNamesSet.add(screen.getId().getScreenId().getName());
+					rootModules.add(getRootModule(screen.getId().getScreenId(), screenNamesSet));
 				});
 			});
-			
-//			loggedInUser.getRole().getScreens().forEach(screen -> {
-//				screenNamesSet.add(screen.getName());
-//				rootModules.add(getRootModule(screen, screenNamesSet));
-//			});
 
 			rootModules.forEach(module -> module.setScreens(getScreens(module,
 					screenNamesSet)));
