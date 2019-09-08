@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,9 @@ public class WorkCenterRoleScreens {
 	@Id
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private WorkCenterRoleScreensCompositeKey id;
+	
+	@Transient
+	private WorkCenterRoleScreensCompositeKey transId;
 
 	@Column(name = "can_insert")
 	private Boolean canInsert;

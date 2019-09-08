@@ -22,15 +22,20 @@ public class WorkCenterRoleScreensController {
 	
 	@GetMapping
 	public ResponseEntity<Object> loadAll() {
+		List<WorkCenterRoleScreens> screens = repo.findAll();
+		screens.forEach( s -> {
+			s.getId().getWcRoleId().setScreens(null);
+			s.setTransId(s.getId());
+		});
 		return ResponseEntity.ok(repo.findAll());
 	}
 	
 	@PostMapping
 	public ResponseEntity<Object> saveAll(@RequestBody List<WorkCenterRoleScreens> screens) {
-		System.out.println("---------------------------------------");
-		screens.forEach( s -> {
-			System.out.println(s.toString());
-		});
+//		System.out.println("---------------------------------------");
+//		screens.forEach( s -> {
+//			System.out.println(s.toString());
+//		});
 		repo.saveAll(screens);
 		System.out.println("Saving SuccessFull");
 		return ResponseEntity.ok(repo.findAll());
